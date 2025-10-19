@@ -9,7 +9,7 @@ import b22 from "../assets/homeImages/b22.png";
 import b23 from "../assets/homeImages/b23.png";
 import ReadyFood from "../assets/homeImages/ReadyFood.png";
 import restoOwner from "../assets/homeImages/restoOwner.png";
-import HappyClient from "../assets/homeImages/HappyClient.png";
+import HappyClient from "../assets/homeImages/happyClient.png";
 import logo from "../assets/homeImages/logo.png";
 import menu from "../assets/homeImages/menu.jpg";
 import resto from "../assets/homeImages/resto.jpg";
