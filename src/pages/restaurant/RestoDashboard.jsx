@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { fetchCompletedRestaurantOrdersAPI } from "../../services/operations/orderAPI";
+import { fetchCompletedRestaurantOrdersAPI } from "../../services/operations/OrderAPI";
 
 const RestoDashboard = () => {
   const dispatch = useDispatch();

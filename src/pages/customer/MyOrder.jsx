@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { fetchCustomerOrders } from "../../services/operations/orderAPI";
-
+import { fetchCustomerOrders } from "../../services/operations/OrderAPI";
 const MyOrder = () => {
   const dispatch = useDispatch();
   const { token } = useSelector((state) => state.auth);

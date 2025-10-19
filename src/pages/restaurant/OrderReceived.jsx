@@ -1,6 +1,9 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { fetchRestaurantOrders, updateOrderStatusAPI } from "../../services/operations/orderAPI";
+import {
+  fetchRestaurantOrders,
+  updateOrderStatusAPI,
+} from "../../services/operations/OrderAPI";
 import toast from "react-hot-toast";
 
 const OrderReceived = () => {
@@ -9,7 +12,13 @@ const OrderReceived = () => {
   const { token } = useSelector((state) => state.auth) || {};
 
   // Tabs based on status
-  const tabs = ["pending", "preparing", "dispatching", "out-for-delivery", "completed"];
+  const tabs = [
+    "pending",
+    "preparing",
+    "dispatching",
+    "out-for-delivery",
+    "completed",
+  ];
   const [activeTab, setActiveTab] = useState("pending");
 
   // Fetch orders on mount
@@ -18,10 +27,11 @@ const OrderReceived = () => {
   }, [dispatch, token]);
 
   // Filter orders by active tab
-  const displayedOrders = orders?.filter((order) => {
-    if (activeTab === "completed") return order?.status === "delivered";
-    return order?.status === activeTab;
-  }) || [];
+  const displayedOrders =
+    orders?.filter((order) => {
+      if (activeTab === "completed") return order?.status === "delivered";
+      return order?.status === activeTab;
+    }) || [];
 
   // Handle status transitions for RestaurantOwner
   const handleStatusUpdate = (orderId, currentStatus) => {
@@ -46,7 +56,9 @@ const OrderReceived = () => {
 
   return (
     <div className="mx-6 mt-6 md:mx-15 md:mt-10 min-h-screen ">
-      <h2 className="text-3xl font-bold mb-6 text-[#195A00]">Orders Received</h2>
+      <h2 className="text-3xl font-bold mb-6 text-[#195A00]">
+        Orders Received
+      </h2>
 
       {/* Tabs */}
       <div className="flex gap-4 mb-6 flex-wrap">
@@ -54,7 +66,9 @@ const OrderReceived = () => {
           <button
             key={tab}
             className={`px-4 py-2 rounded font-medium capitalize ${
-              activeTab === tab ? "bg-[#195A00] text-white" : "bg-gray-200 text-gray-700"
+              activeTab === tab
+                ? "bg-[#195A00] text-white"
+                : "bg-gray-200 text-gray-700"
             }`}
             onClick={() => setActiveTab(tab)}
           >
@@ -75,24 +89,33 @@ const OrderReceived = () => {
               key={order?._id}
               className="p-4 border rounded-xl shadow-md hover:shadow-lg transition bg-white"
             >
-              <p className="font-semibold text-gray-700 mb-1">Order ID: {order?._id}</p>
+              <p className="font-semibold text-gray-700 mb-1">
+                Order ID: {order?._id}
+              </p>
               <p className="text-gray-600 mb-1">
-                Customer: {order?.customer?.firstName} {order?.customer?.lastName}
+                Customer: {order?.customer?.firstName}{" "}
+                {order?.customer?.lastName}
               </p>
               <p className="text-gray-600 mb-1">
                 Contact Info: {order?.customer?.email}
               </p>
               <p className="text-gray-600 mb-1">
-                Status: <span className="font-bold text-[#195A00]">{order?.status}</span>
+                Status:{" "}
+                <span className="font-bold text-[#195A00]">
+                  {order?.status}
+                </span>
               </p>
-              <p className="text-gray-600 mb-2">Total: ₹{order?.totalPrice?.toFixed(2)}</p>
+              <p className="text-gray-600 mb-2">
+                Total: ₹{order?.totalPrice?.toFixed(2)}
+              </p>
 
               <div>
                 <h4 className="font-semibold mb-1">Items:</h4>
                 <ul className="list-disc list-inside">
                   {order?.items?.map((item) => (
                     <li key={item?.dish?._id}>
-                      {item?.name} x {item?.quantity} - ₹{(item?.price * item?.quantity)?.toFixed(2)}
+                      {item?.name} x {item?.quantity} - ₹
+                      {(item?.price * item?.quantity)?.toFixed(2)}
                     </li>
                   ))}
                 </ul>
