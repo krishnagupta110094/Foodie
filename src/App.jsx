@@ -12,7 +12,7 @@ import Menu from "./components/core/Menu/Menu";
 import Restaurant from "./components/core/Restaurants/Restaurant";
 import RestaurantDetail from "./components/core/Restaurants/RestaurantDetail";
 import Login from "./components/core/Auth/Login";
-import Signup from "./components/core/Auth/SignUp";
+import Signup from "./components/core/Auth/Signup";
 import VerifyEmail from "./pages/VerifyEmail";
 import Cart from "./pages/customer/Cart";
 import Dashboard from "./components/core/Dashboard/Dashboard";
