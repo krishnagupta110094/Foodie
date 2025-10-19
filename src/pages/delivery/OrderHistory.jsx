@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { fetchCompletedDeliveryOrdersAPI } from "../../services/operations/OrderAPI";
+import { fetchCompletedDeliveryOrdersAPI } from "../../services/operations/OrderAPI"
 
 const OrderHistory = () => {
   const dispatch = useDispatch();
