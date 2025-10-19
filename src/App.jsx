@@ -24,7 +24,7 @@ import MyDishes from "./pages/restaurant/MyDishes";
 import AddNewDish from "./pages/restaurant/AddNewDish";
 import OrderReceived from "./pages/restaurant/OrderReceived";
 import RestoDetails from "./pages/restaurant/RestoDetails";
-import EditDish from "./pages/restaurant/EditDIsh";
+import EditDish from "./pages/restaurant/EditDish";
 import EditRestaurant from "./pages/restaurant/EditRestaurant";
 import OrderReceivedForDelivery from "./pages/delivery/OrderReceivedForDelivery";
 import Earning from "./pages/delivery/Earning";
@@ -76,7 +76,10 @@ const App = () => {
           <Route path="/dashboard/my-dishes" element={<MyDishes />} />
           <Route path="/dashboard/add-dish" element={<AddNewDish />} />
           <Route path="/dashboard/edit-dish/:dishId" element={<EditDish />} />
-          <Route path="/dashboard/edit-restaurant/:restaurantId" element={<EditRestaurant/>}/>
+          <Route
+            path="/dashboard/edit-restaurant/:restaurantId"
+            element={<EditRestaurant />}
+          />
 
           <Route
             path="/dashboard/orders-received"
@@ -89,22 +92,11 @@ const App = () => {
           {/* DELIVERY------------------------------------------------------ */}
           <Route
             path="/dashboard/orders"
-            element={<OrderReceivedForDelivery/>}
+            element={<OrderReceivedForDelivery />}
           />
-          <Route
-            path="/dashboard/history"
-            element={<OrderHistory/>}
-          />
-          <Route
-            path="/dashboard/vehical-info"
-            element={<VehicalInfo/>}
-          />
-          <Route
-            path="/dashboard/earnings"
-            element={<Earning/>}
-          />
-
-        
+          <Route path="/dashboard/history" element={<OrderHistory />} />
+          <Route path="/dashboard/vehical-info" element={<VehicalInfo />} />
+          <Route path="/dashboard/earnings" element={<Earning />} />
         </Route>
 
         {/* Error Page */}
