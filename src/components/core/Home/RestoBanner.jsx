@@ -1,6 +1,8 @@
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
 
 const RestoBanner = () => {
+  const navigate = useNavigate();
   return (
     <div className="bg-gradient-to-r from-white to-green-50 py-16 px-4 sm:px-6 md:px-20">
       <div className="flex flex-col md:flex-row items-center justify-between gap-12">
@@ -16,10 +18,10 @@ const RestoBanner = () => {
           </p>
 
           <div className="flex flex-col sm:flex-row items-center gap-4 justify-center md:justify-start">
-            <button className="bg-green-700 text-white px-6 py-3 rounded-md text-base sm:text-lg font-medium hover:bg-green-800 transition-all">
+            <button onClick={()=>navigate("/dashboard/create-restaurant")} className="bg-green-700 text-white px-6 py-3 rounded-md text-base sm:text-lg font-medium hover:bg-green-800 transition-all">
               🍽️ Create Your Resto
             </button>
-            <button className="text-green-700 border border-green-700 px-6 py-3 rounded-md text-base sm:text-lg font-medium hover:bg-green-100 transition-all">
+            <button onClick={()=>navigate("/about")} className="text-green-700 border border-green-700 px-6 py-3 rounded-md text-base sm:text-lg font-medium hover:bg-green-100 transition-all">
               Learn More
             </button>
           </div>

@@ -1,8 +1,10 @@
 import React from 'react'
 import { HomeImages } from '../../../data/Images'
 import GWButton from '../../common/GWButton'
+import { useNavigate } from 'react-router-dom'
 
 const HomeBanner2 = () => {
+  const navigate = useNavigate();
   return (
     <div className='mt-20 flex flex-col lg:flex-row items-center justify-between gap-10 px-6 md:pr-20 md:py-10 '>
       {/* Left Image Grid */}
@@ -30,8 +32,13 @@ const HomeBanner2 = () => {
 
         {/* Buttons */}
         <div className='flex items-center gap-4'>
-          <GWButton text="Show more" bgColor="#195A00" />
+          <div onClick={()=>navigate("/menu")}>
+            <GWButton  text="Show More" bgColor="#195A00" />
+          </div>
+          <div onClick={()=>navigate("/dashboard/cart")}>
           <GWButton text="Place an Order" bgColor="#f5f5f5" />
+
+          </div>
         </div>
       </div>
     </div>

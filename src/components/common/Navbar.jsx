@@ -215,7 +215,7 @@ const Navbar = () => {
           <NavLink to="/menu" className={navLinkClass}>Menu</NavLink>
           <NavLink to="/restaurant" className={navLinkClass}>Restaurants</NavLink>
           <NavLink to="/about" className={navLinkClass}>About</NavLink>
-          <NavLink to="/contact" className={navLinkClass}>Contact Us</NavLink>
+          <NavLink to="/contact-us" className={navLinkClass}>Contact Us</NavLink>
         </div>
 
         {/* Right Section */}

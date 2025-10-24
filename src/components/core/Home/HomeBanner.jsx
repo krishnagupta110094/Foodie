@@ -84,8 +84,10 @@
 import React from "react";
 import GWButton from "../../common/GWButton";
 import { HomeImages } from "../../../data/Images";
+import { useNavigate } from "react-router-dom";
 
 const HomeBanner = () => {
+  const navigate = useNavigate();
   return (
     <div className="flex flex-col lg:flex-row items-center justify-between gap-8 lg:gap-12 px-4 lg:px-0">
       {/* Left Section */}
@@ -118,8 +120,13 @@ const HomeBanner = () => {
 
         {/* CTA Buttons */}
         <div className="flex flex-col sm:flex-row gap-4 pt-4 justify-center lg:justify-start">
-          <GWButton text="Show More" bgColor="#195A00" />
+          <div onClick={()=>navigate("/menu")}>
+            <GWButton  text="Show More" bgColor="#195A00" />
+          </div>
+          <div onClick={()=>navigate("/dashboard/cart")}>
           <GWButton text="Place an Order" bgColor="#f5f5f5" />
+
+          </div>
         </div>
       </div>
 

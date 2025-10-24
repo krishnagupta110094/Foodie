@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 
-const MySetting = ({ title = "Page", message }) => {
+const About = ({ title = "Page", message }) => {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -51,7 +51,7 @@ const MySetting = ({ title = "Page", message }) => {
       <div className="flex gap-4 mt-8">
         <button
           onClick={() => window.history.back()}
-          className="px-6 py-2 font-semibold rounded-lg shadow-md text-white bg-gray-700 hover:bg-gray-800 transition-all"
+          className="px-6 py-2 font-semibold rounded-lg shadow-md text-black bg-gray-200 hover:bg-gray-300 transition-all"
         >
           🔙 Go Back
         </button>
@@ -67,4 +67,4 @@ const MySetting = ({ title = "Page", message }) => {
   );
 };
 
-export default MySetting;
+export default About;

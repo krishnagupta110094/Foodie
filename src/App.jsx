@@ -31,6 +31,8 @@ import Earning from "./pages/delivery/Earning";
 import VehicalInfo from "./pages/delivery/VehicalInfo";
 import OrderHistory from "./pages/delivery/OrderHistory";
 import CreateRestaurant from "./pages/restaurant/CreateRestaurant";
+import About from "./pages/About";
+import ContactUs from "./pages/ContactUs";
 
 const App = () => {
   return (
@@ -39,6 +41,9 @@ const App = () => {
       <Routes>
         {/* Home Route */}
         <Route path="/" element={<Home />} />
+        <Route path="/about" element={<About />} />
+        <Route path="/contact-us" element={<ContactUs />} />
+
         <Route
           path="/menu/category/:categoryName/dishes"
           element={<CategoryDetail />}

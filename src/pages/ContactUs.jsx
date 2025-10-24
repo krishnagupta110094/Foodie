@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 
-const MySetting = ({ title = "Page", message }) => {
+const ContactUs = ({ title = "Page", message }) => {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -67,4 +67,4 @@ const MySetting = ({ title = "Page", message }) => {
   );
 };
 
-export default MySetting;
+export default ContactUs;
