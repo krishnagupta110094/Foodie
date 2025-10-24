@@ -4,7 +4,13 @@ import { authEndpoints } from "../apis";
 import { setLoading, setToken, setUser } from "../../slices/authSlice";
 import { getUserCart } from "./cartAPI";
 
-const { SENDOTP_API, SIGNUP_API, LOGIN_API,GET_USER_DETAILS_API } = authEndpoints;
+const {
+  SENDOTP_API,
+  SIGNUP_API,
+  LOGIN_API,
+  GET_USER_DETAILS_API,
+  EDIT_PROFILE_API,
+} = authEndpoints;
 
 export const sendOTP = async (email, navigate) => {
   const toastId = toast.loading("Sending OTP...");
@@ -114,9 +120,6 @@ export function logout(navigate) {
   };
 }
 
-
-
-
 export function getUserDetails(token) {
   return async (dispatch) => {
     try {
@@ -135,3 +138,41 @@ export function getUserDetails(token) {
   };
 }
 
+export function editProfile(token, formData) {
+  return async (dispatch) => {
+    const toastId = toast.loading("Loading...");
+    try {
+      const response = await apiConnector("POST", EDIT_PROFILE_API, formData, {
+        Authorization: `Bearer ${token}`,
+      });
+
+      if (response?.data?.success) {
+        const user = response.data.user;
+
+        // Update Redux store
+        dispatch(setUser(user));
+
+        // Persist in localStorage
+        localStorage.setItem("user", JSON.stringify(user));
+
+        return {
+          success: true,
+          message: response.data.message || "Profile updated successfully",
+        };
+      } else {
+        return {
+          success: false,
+          message: response?.data?.message || "Failed to update profile",
+        };
+      }
+    } catch (error) {
+      console.error("Edit Profile Error:", error);
+      return {
+        success: false,
+        message: error?.response?.data?.message || "Something went wrong",
+      };
+    } finally{
+      toast.dismiss(toastId);
+    }
+  };
+}

@@ -1,5 +1,5 @@
-const BASE_URL = "https://foodieserver-n2f9.onrender.com/api/v1";
-// const BASE_URL = "http://localhost:4000/api/v1";
+// const BASE_URL = "https://foodieserver-n2f9.onrender.com/api/v1";
+const BASE_URL = "http://localhost:4000/api/v1";
 
 // ================= AUTH ENDPOINTS =================
 export const authEndpoints = {
@@ -9,7 +9,8 @@ export const authEndpoints = {
   CHANGEPASSWORD_API: `${BASE_URL}/auth/change-password`,
   RESETPASSTOKEN_API: `${BASE_URL}/auth/reset-password-token`,
   RESETPASSWORD_API: `${BASE_URL}/auth/reset-password`,
-  GET_USER_DETAILS_API:`${BASE_URL}/auth/get-user-details`,
+  GET_USER_DETAILS_API: `${BASE_URL}/auth/get-user-details`,
+  EDIT_PROFILE_API:`${BASE_URL}/auth/edit-profile`,
 };
 
 // ================= CATEGORY ENDPOINTS =================
@@ -67,14 +68,14 @@ export const orderEndpoints = {
   UPDATE_STATUS: (orderId) => `${BASE_URL}/update-status/${orderId}`,
   GET_CUSTOMER_ORDERS: `${BASE_URL}/get-customer-orders`,
   GET_RESTAURANT_ORDERS: `${BASE_URL}/get-restaurant-orders`,
-  GET_DELIVERY_ORDERS:`${BASE_URL}/get-delivery-orders`,
-  ACCEPT_ORDER:`${BASE_URL}/accept-order`,
-  COMPLETE_ORDER:`${BASE_URL}/complete-order`,
-  GET_COMPLETED_DELIVERY_ORDERS:`${BASE_URL}/completed-delivery-orders`,
-  GET_COMPLETED_RESTAURANT_ORDERS:`${BASE_URL}/completed-restaurant-orders`,
+  GET_DELIVERY_ORDERS: `${BASE_URL}/get-delivery-orders`,
+  ACCEPT_ORDER: `${BASE_URL}/accept-order`,
+  COMPLETE_ORDER: `${BASE_URL}/complete-order`,
+  GET_COMPLETED_DELIVERY_ORDERS: `${BASE_URL}/completed-delivery-orders`,
+  GET_COMPLETED_RESTAURANT_ORDERS: `${BASE_URL}/completed-restaurant-orders`,
 };
 
 export const paymentEndpoints = {
-  CREATE_PAYMENT_ORDER:`${BASE_URL}/create-order`,
-  VERIFY_PAYMENT:`${BASE_URL}/verify-payment`,
-}
+  CREATE_PAYMENT_ORDER: `${BASE_URL}/create-order`,
+  VERIFY_PAYMENT: `${BASE_URL}/verify-payment`,
+};

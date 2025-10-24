@@ -93,13 +93,7 @@ export const sidebarLinks = [
     type: "deliveryBoy",
     icon: "VscGraph",
   },
-  {
-    id: 15,
-    name: "Profile & Vehicle Info",
-    path: "/dashboard/vehical-info",
-    type: "deliveryBoy",
-    icon: "VscTools",
-  },
+  
 
   // ----------------- ADMIN -----------------
   {

@@ -335,8 +335,7 @@ exports.getUserDetails = async (req, res) => {
     const userId = req.user.id;
 
     // User find kar le (restaurant populate karna optional hai)
-    const userDetails = await User.findById(userId)
-      .select("-password"); // password exclude kar
+    const userDetails = await User.findById(userId).select("-password"); // password exclude kar
 
     if (!userDetails) {
       return res.status(404).json({
@@ -360,3 +359,48 @@ exports.getUserDetails = async (req, res) => {
     });
   }
 };
+
+
+exports.editProfile = async (req, res) => {
+  try {
+    const userId = req.user.id;
+    const { gender, dateOfBirth, bio, contactNumber } = req.body;
+
+    // Find user and populate profile
+    const user = await User.findById(userId).populate("additionDetails").select("-password");
+    if (!user) {
+      return res.status(404).json({ success: false, message: "User not found" });
+    }
+
+    const profile = user.additionDetails;
+    if (!profile) {
+      return res.status(404).json({ success: false, message: "Profile not found" });
+    }
+
+    // Update only editable fields
+    if (gender !== undefined) profile.gender = gender;
+    if (dateOfBirth !== undefined) profile.dateOfBirth = dateOfBirth;
+    if (bio !== undefined) profile.bio = bio;
+    if (contactNumber !== undefined) profile.contactNumber = contactNumber;
+
+    await profile.save();
+
+    // Fetch updated user with populated profile
+    const updatedUser = await User.findById(userId).populate("additionDetails").select("-password");
+
+    return res.status(200).json({
+      success: true,
+      message: "Profile updated successfully",
+      user: updatedUser,
+    });
+  } catch (error) {
+    console.error("Edit Profile Error:", error);
+    return res.status(500).json({
+      success: false,
+      message: "Something went wrong while updating profile",
+      error: error.message,
+    });
+  }
+};
+
+
