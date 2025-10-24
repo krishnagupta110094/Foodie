@@ -266,51 +266,64 @@ exports.getDishesByCategory = async (req, res) => {
 //   }
 // };
 //Get categories with dishes for a specific restaurant
+// controllers/dishController.js
+
+
+// ✅ Get categories with dishes for a specific restaurant
 exports.getCategoriesWithDishesByRestaurant = async (req, res) => {
   try {
     const { restaurantId } = req.params;
 
-    // Step 1: Get restaurant details
+    // 1️⃣ Validate restaurant existence
     const restaurant = await Restaurant.findById(restaurantId).select("name");
     if (!restaurant) {
       return res.status(404).json({
         success: false,
-        message: "Restaurant not found",
+        message: "Restaurant not found ❌",
       });
     }
 
-    // Step 2: Find all categories where this restaurant has at least one dish
-    const dishes = await Dish.find({ restaurant: restaurantId });
-    const categoryIds = [
-      ...new Set(dishes.map((dish) => dish.category.toString())),
-    ];
-    console.log(categoryIds,"firstCheck")
+    // 2️⃣ Find all dishes of that restaurant
+    const dishes = await Dish.find({ restaurant: restaurantId })
+      .populate("category") // populate category name directly
+      .populate("restaurant", "name");
 
-    if (!categoryIds.length) {
-      return res.status(404).json({
-        success: false,
+    if (!dishes.length) {
+      return res.status(200).json({
+        success: true,
         message: "No dishes found for this restaurant",
+        restaurant: {
+          _id: restaurant._id,
+          name: restaurant.name,
+          categories: [],
+        },
       });
     }
 
-    // Step 3: For each category, fetch all dishes for this restaurant
-    const categoriesWithDishes = await Promise.all(
-      categoryIds.map(async (categoryId) => {
-        const category = await Category.findById(categoryId);
-        console.log("second check",category)
-        const categoryDishes = await Dish.find({
-          restaurant: restaurantId,
-          category: categoryId,
-        }).populate("restaurant", "name");
-        return {
-          category:category,
-          dishes: categoryDishes,
-        };
-      })
-    );
+    // 3️⃣ Group dishes by category
+    const categoryMap = {};
 
+    dishes.forEach((dish) => {
+      const catId = dish.category?._id?.toString();
+      if (!catId) return; // skip if category deleted or missing
+
+      if (!categoryMap[catId]) {
+        categoryMap[catId] = {
+          category: dish.category, // { _id, name }
+          dishes: [],
+        };
+      }
+
+      categoryMap[catId].dishes.push(dish);
+    });
+
+    // 4️⃣ Convert grouped object to array
+    const categoriesWithDishes = Object.values(categoryMap);
+
+    // 5️⃣ Send formatted response
     res.status(200).json({
       success: true,
+      message: "Categories with dishes fetched successfully ✅",
       restaurant: {
         _id: restaurant._id,
         name: restaurant.name,
@@ -321,7 +334,9 @@ exports.getCategoriesWithDishesByRestaurant = async (req, res) => {
     console.error("Error fetching categories with dishes:", error);
     res.status(500).json({
       success: false,
-      message: error.message,
+      message: "Internal Server Error ❌",
+      error: error.message,
     });
   }
 };
+

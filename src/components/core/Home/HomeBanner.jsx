@@ -157,7 +157,7 @@ const HomeBanner = () => {
         <img
           src={HomeImages.main}
           alt="Main Bowl"
-          className="relative w-[65%] top-8 z-30 drop-shadow-2xl"
+          className="relative w-[65%] top-8 left-35 z-30 drop-shadow-2xl"
         />
       </div>
     </div>

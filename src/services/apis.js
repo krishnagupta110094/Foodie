@@ -1,5 +1,5 @@
-const BASE_URL = "https://foodieserver-n2f9.onrender.com/api/v1";
-// const BASE_URL = "http://localhost:4000/api/v1";
+// const BASE_URL = "https://foodieserver-n2f9.onrender.com/api/v1";
+const BASE_URL = "http://localhost:4000/api/v1";
 
 // ================= AUTH ENDPOINTS =================
 export const authEndpoints = {
@@ -9,6 +9,7 @@ export const authEndpoints = {
   CHANGEPASSWORD_API: `${BASE_URL}/auth/change-password`,
   RESETPASSTOKEN_API: `${BASE_URL}/auth/reset-password-token`,
   RESETPASSWORD_API: `${BASE_URL}/auth/reset-password`,
+  GET_USER_DETAILS_API:`${BASE_URL}/auth/get-user-details`,
 };
 
 // ================= CATEGORY ENDPOINTS =================

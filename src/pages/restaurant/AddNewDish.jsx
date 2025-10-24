@@ -199,7 +199,6 @@
 
 // export default AddNewDish;
 
-
 import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { useSelector } from "react-redux";
@@ -208,6 +207,7 @@ import { apiConnector } from "../../services/apiConnector";
 import { dishEndpoints } from "../../services/apis";
 import { getAllCategory } from "../../services/operations/categoryAPI";
 import { useNavigate } from "react-router-dom";
+import { getAllRestaurant } from "../../services/operations/restaurantAPI";
 
 const { CREATE_DISH } = dishEndpoints;
 
@@ -216,7 +216,38 @@ const AddNewDish = () => {
   const [categories, setCategories] = useState([]);
   const [preview, setPreview] = useState(null);
   const [loading, setLoading] = useState(false);
+  const [restaurant, setRestaurant] = useState(null);
+
   const navigate = useNavigate();
+
+  useEffect(() => {
+    const fetchMyRestaurant = async () => {
+      try {
+        setLoading(true);
+        // Fetch all restaurants
+        const restaurants = await getAllRestaurant();
+
+        // Find restaurant belonging to logged-in user
+        const myRestaurant = restaurants.find(
+          (resto) => resto?.owner?._id === user?._id
+        );
+
+        if (myRestaurant) {
+          setRestaurant(myRestaurant);
+        } else {
+          setRestaurant(null);
+        }
+      } catch (error) {
+        console.error("Error fetching restaurant:", error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    if (user?.accountType === "restaurantOwner") fetchMyRestaurant();
+  }, [user]);
+
+  
 
   const {
     register,
@@ -241,6 +272,8 @@ const AddNewDish = () => {
     };
     fetchCategories();
   }, []);
+
+
 
   const onSubmit = async (data) => {
     if (!user?.restaurant) {
@@ -268,9 +301,9 @@ const AddNewDish = () => {
       if (response?.data?.success) {
         toast.dismiss(toastId);
         toast.success("Dish added successfully!");
+        navigate("/dashboard/my-dishes");
         reset();
         setPreview(null);
-        navigate("/dashboard/my-dishes");
       } else {
         toast.dismiss(toastId);
         toast.error(response?.data?.message || "Failed to add dish ❌");
@@ -282,6 +315,32 @@ const AddNewDish = () => {
       setLoading(false);
     }
   };
+
+  // ✅ Loading state
+  if (loading) {
+    return <p className="ml-15 mt-10">Loading your restaurant...</p>;
+  }
+
+  // ❌ No restaurant found
+  if (!restaurant) {
+    return (
+      <div className="flex flex-col items-center justify-center mt-20">
+        <h2 className="text-2xl font-semibold text-gray-800 mb-2">
+          🍽️ No Restaurant Found
+        </h2>
+        <p className="text-gray-600 mb-6 text-center max-w-md">
+          It looks like you haven’t created a restaurant yet. Start your journey
+          by creating one now!
+        </p>
+        <button
+          onClick={() => navigate("/dashboard/create-restaurant")}
+          className="bg-green-600 hover:bg-green-700 text-white font-medium py-2 px-5 rounded-lg shadow-md transition-all"
+        >
+          + Create Your Restaurant
+        </button>
+      </div>
+    );
+  }
 
   return (
     <div className="flex flex-col lg:flex-row px-4 sm:px-6 lg:px-20 mt-6">
@@ -326,7 +385,9 @@ const AddNewDish = () => {
               placeholder="Enter price"
             />
             {errors.price && (
-              <p className="text-red-500 text-sm mt-1">{errors.price.message}</p>
+              <p className="text-red-500 text-sm mt-1">
+                {errors.price.message}
+              </p>
             )}
           </div>
 
@@ -345,7 +406,9 @@ const AddNewDish = () => {
               ))}
             </select>
             {errors.category && (
-              <p className="text-red-500 text-sm mt-1">{errors.category.message}</p>
+              <p className="text-red-500 text-sm mt-1">
+                {errors.category.message}
+              </p>
             )}
           </div>
 
@@ -380,7 +443,9 @@ const AddNewDish = () => {
 
       {/* Right: Instructions */}
       <div className="w-full lg:w-80 lg:mr-0 lg:sticky lg:top-10 h-auto lg:h-[65vh] p-4 sm:p-6 bg-white shadow-md rounded-xl  lg:mt-0">
-        <h3 className="text-xl font-semibold mb-4 text-green-700">Instructions</h3>
+        <h3 className="text-xl font-semibold mb-4 text-green-700">
+          Instructions
+        </h3>
         <ul className="list-disc list-inside space-y-2 text-gray-700">
           <li>Fill in the dish name and description.</li>
           <li>Set a price in ₹ (numeric values only).</li>

@@ -5,11 +5,15 @@ import {
   updateOrderStatusAPI,
 } from "../../services/operations/OrderAPI";
 import toast from "react-hot-toast";
+import { getAllRestaurant } from "../../services/operations/restaurantAPI";
 
 const OrderReceived = () => {
   const dispatch = useDispatch();
-  const { orders = [], loading } = useSelector((state) => state.orders) || {};
-  const { token } = useSelector((state) => state.auth) || {};
+  const { orders = [] } = useSelector((state) => state.orders) || {};
+  const { token,user } = useSelector((state) => state.auth) || {};
+    const [restaurant, setRestaurant] = useState(null);
+    const [loading,setLoading] = useState(false);
+  
 
   // Tabs based on status
   const tabs = [
@@ -21,10 +25,37 @@ const OrderReceived = () => {
   ];
   const [activeTab, setActiveTab] = useState("pending");
 
+  useEffect(() => {
+    const fetchMyRestaurant = async () => {
+      try {
+        setLoading(true);
+        // Fetch all restaurants
+        const restaurants = await getAllRestaurant();
+
+        // Find restaurant belonging to logged-in user
+        const myRestaurant = restaurants.find(
+          (resto) => resto?.owner?._id === user?._id
+        );
+
+        if (myRestaurant) {
+          setRestaurant(myRestaurant);
+        } else {
+          setRestaurant(null);
+        }
+      } catch (error) {
+        console.error("Error fetching restaurant:", error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    if (user?.accountType === "restaurantOwner") fetchMyRestaurant();
+  }, [user]);
+
   // Fetch orders on mount
   useEffect(() => {
-    if (token) dispatch(fetchRestaurantOrders(token));
-  }, [dispatch, token]);
+    if (token && restaurant) dispatch(fetchRestaurantOrders(token));
+  }, [dispatch, token,restaurant]);
 
   // Filter orders by active tab
   const displayedOrders =
@@ -53,6 +84,32 @@ const OrderReceived = () => {
       dispatch(fetchRestaurantOrders(token)); // Refresh orders
     });
   };
+
+  // ✅ Loading state
+  if (loading) {
+    return <p className="ml-15 mt-10">Loading your restaurant...</p>;
+  }
+
+  // ❌ No restaurant found
+  if (!restaurant) {
+    return (
+      <div className="flex flex-col items-center justify-center mt-20">
+        <h2 className="text-2xl font-semibold text-gray-800 mb-2">
+          🍽️ No Restaurant Found
+        </h2>
+        <p className="text-gray-600 mb-6 text-center max-w-md">
+          It looks like you haven’t created a restaurant yet. Start your journey
+          by creating one now!
+        </p>
+        <button
+          onClick={() => navigate("/dashboard/create-restaurant")}
+          className="bg-green-600 hover:bg-green-700 text-white font-medium py-2 px-5 rounded-lg shadow-md transition-all"
+        >
+          + Create Your Restaurant
+        </button>
+      </div>
+    );
+  }
 
   return (
     <div className="mx-6 mt-6 md:mx-15 md:mt-10 min-h-screen ">

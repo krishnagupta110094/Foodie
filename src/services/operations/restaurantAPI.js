@@ -3,6 +3,7 @@ import { apiConnector } from "../apiConnector";
 import { restaurantEndpoints } from "../apis";
 
 const {
+  CREATE_RESTAURANT,
   GET_ALL_RESTAURANT,
   GET_RESTAURANT_BY_RESTAURANTID,
   GET_SIGNLE_RESTAURANT_DETAILS,
@@ -31,34 +32,34 @@ export const getAllRestaurant = async () => {
   return result;
 };
 
+
 export const getRestaurantById = async (restaurantId) => {
+  if (!restaurantId) {
+    toast.error("Restaurant ID is required ❌");
+    return null;
+  }
+
   try {
     const response = await apiConnector(
       "GET",
       GET_RESTAURANT_BY_RESTAURANTID(restaurantId)
     );
 
-    if (!response?.data?.success) {
-      // If the API returned success: false
-      const message =
-        response?.data?.message || "Could not fetch restaurant by ID ❌";
-      toast.error(message);
+    const { success, restaurant, message } = response?.data || {};
+
+    if (!success || !restaurant) {
+      toast.error(message || "Restaurant not found ❌");
       return null;
-    }
-
-    const restaurant = response?.data?.restaurant || null;
-
-    if (!restaurant) {
-      toast.error("Restaurant not found ❌");
     }
 
     return restaurant;
   } catch (error) {
-    console.error("GET_RESTAURANT_BY_ID ERROR:", error);
-    toast.error(error.message || "Failed to fetch restaurant ❌");
+    // console.error("GET_RESTAURANT_BY_ID ERROR:", error);
+    toast.error(error?.response?.data?.message);
     return null;
   }
 };
+
 
 export const getSingleRestaurantDetails = async (
   restaurantId,
@@ -113,5 +114,41 @@ export const updateRestaurantDetails = async (
   } catch (error) {
     console.error("Update restaurant error:", error);
     throw error; // propagate error to caller
+  }
+};
+
+export const createRestaurant = async (formData, token) => {
+  try {
+    // POST request to CREATE_RESTAURANT endpoint
+    const toastId = toast.loading("Creating Restaurant...");
+    const response = await apiConnector(
+      "POST",
+      CREATE_RESTAURANT,
+      formData, // should be FormData object if sending images
+      {
+        Authorization: `Bearer ${token}`,
+        "Content-Type": "multipart/form-data", // required for images
+      }
+    );
+    
+
+    if (!response?.data?.success) {
+      toast.dismiss(toastId);
+
+      throw new Error(
+        response?.data?.message || "Failed to create restaurant ❌"
+      );
+    }
+    toast.dismiss(toastId);
+    toast.success("Restaurant created successfully ✅");
+    return response.data.restaurant;
+  } catch (error) {
+    console.error("CREATE_RESTAURANT ERROR:", error);
+    toast.error(
+      error.response?.data?.message ||
+        error.message ||
+        "Failed to create restaurant ❌"
+    );
+    return null;
   }
 };

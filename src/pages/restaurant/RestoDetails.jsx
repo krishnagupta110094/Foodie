@@ -12,11 +12,13 @@ const RestoDetails = () => {
   const { token, user } = useSelector((state) => state.auth);
   const [restaurantId, setRestaurantId] = useState(null);
   const [restaurant, setRestaurant] = useState(null);
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
 
   useEffect(() => {
-    if (user) setRestaurantId(user?.restaurant);
+    if (user?.restaurant) {
+      setRestaurantId(user?.restaurant);
+    } 
   }, [user]);
 
   useEffect(() => {
@@ -25,6 +27,7 @@ const RestoDetails = () => {
       setLoading(true);
       const data = await getSingleRestaurantDetails(restaurantId, token);
       setRestaurant(data);
+      // console.log(data,"debug1");
       setLoading(false);
     };
     fetchRestaurant();
@@ -39,9 +42,21 @@ const RestoDetails = () => {
 
   if (!restaurant)
     return (
-      <p className="text-red-500 text-center mt-20 text-lg">
-        Restaurant not found!
-      </p>
+      <div className="flex flex-col items-center justify-center mt-20">
+        <h2 className="text-2xl font-semibold text-gray-800 mb-2">
+          🍽️ No Restaurant Found
+        </h2>
+        <p className="text-gray-600 mb-6 text-center max-w-md">
+          It looks like you haven’t created a restaurant yet. Start your journey
+          by creating one now!
+        </p>
+        <button
+          onClick={() => navigate("/dashboard/create-restaurant")}
+          className="bg-green-600 hover:bg-green-700 text-white font-medium py-2 px-5 rounded-lg shadow-md transition-all"
+        >
+          + Create Your Restaurant
+        </button>
+      </div>
     );
 
   return (

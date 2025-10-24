@@ -30,6 +30,7 @@ import OrderReceivedForDelivery from "./pages/delivery/OrderReceivedForDelivery"
 import Earning from "./pages/delivery/Earning";
 import VehicalInfo from "./pages/delivery/VehicalInfo";
 import OrderHistory from "./pages/delivery/OrderHistory";
+import CreateRestaurant from "./pages/restaurant/CreateRestaurant";
 
 const App = () => {
   return (
@@ -73,6 +74,8 @@ const App = () => {
 
           {/* RESTAURANT---------------------------------------------------- */}
           <Route path="/dashboard/restaurant" element={<RestoDashboard />} />
+          <Route path="/dashboard/create-restaurant" element={<CreateRestaurant />} />
+
           <Route path="/dashboard/my-dishes" element={<MyDishes />} />
           <Route path="/dashboard/add-dish" element={<AddNewDish />} />
           <Route path="/dashboard/edit-dish/:dishId" element={<EditDish />} />

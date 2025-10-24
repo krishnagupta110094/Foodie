@@ -4,7 +4,7 @@ import { authEndpoints } from "../apis";
 import { setLoading, setToken, setUser } from "../../slices/authSlice";
 import { getUserCart } from "./cartAPI";
 
-const { SENDOTP_API, SIGNUP_API, LOGIN_API } = authEndpoints;
+const { SENDOTP_API, SIGNUP_API, LOGIN_API,GET_USER_DETAILS_API } = authEndpoints;
 
 export const sendOTP = async (email, navigate) => {
   const toastId = toast.loading("Sending OTP...");
@@ -113,3 +113,25 @@ export function logout(navigate) {
     navigate("/");
   };
 }
+
+
+
+
+export function getUserDetails(token) {
+  return async (dispatch) => {
+    try {
+      const response = await apiConnector("GET", GET_USER_DETAILS_API, null, {
+        Authorization: `Bearer ${token}`,
+      });
+
+      if (response.data.success) {
+        const user = response.data.user;
+        dispatch(setUser(user));
+        localStorage.setItem("user", JSON.stringify(user));
+      }
+    } catch (error) {
+      console.log("GET_USER_DETAILS_API ERROR:", error);
+    }
+  };
+}
+

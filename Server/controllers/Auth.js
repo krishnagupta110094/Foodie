@@ -328,3 +328,35 @@ exports.changePassword = async (req, res) => {
     });
   }
 };
+
+exports.getUserDetails = async (req, res) => {
+  try {
+    // Logged-in user ka ID le le (middleware se milta hai)
+    const userId = req.user.id;
+
+    // User find kar le (restaurant populate karna optional hai)
+    const userDetails = await User.findById(userId)
+      .select("-password"); // password exclude kar
+
+    if (!userDetails) {
+      return res.status(404).json({
+        success: false,
+        message: "User not found",
+      });
+    }
+
+    // ✅ Success response
+    return res.status(200).json({
+      success: true,
+      user: userDetails,
+      message: "User details fetched successfully",
+    });
+  } catch (error) {
+    console.error("GET_USER_DETAILS ERROR:", error);
+    return res.status(500).json({
+      success: false,
+      message: "Something went wrong while fetching user details",
+      error: error.message,
+    });
+  }
+};
