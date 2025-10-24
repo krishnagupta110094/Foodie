@@ -84,7 +84,6 @@ const Signup = () => {
               >
                 <option value="customer">Customer</option>
                 <option value="restaurantOwner">Restaurant Owner</option>
-                <option value="admin">Admin</option>
                 <option value="deliveryBoy">Delivery Boy</option>
               </select>
               {errors.accountType && (
