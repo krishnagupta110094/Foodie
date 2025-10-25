@@ -1,4 +1,3 @@
-const { useParams } = require("react-router-dom");
 const Category = require("../models/categorySchema");
 const Dish = require("../models/dishSchema");
 const Restaurant = require("../models/restaurantSchema");

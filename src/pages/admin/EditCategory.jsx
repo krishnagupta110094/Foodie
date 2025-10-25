@@ -96,7 +96,7 @@ const EditCategory = () => {
           type="text"
           name="name"
           placeholder="Enter Category Name"
-          value={formData.name}
+          value={formData?.name}
           onChange={handleChange}
           className="border border-gray-300 rounded-md p-2"
           required
@@ -106,7 +106,7 @@ const EditCategory = () => {
           type="text"
           name="description"
           placeholder="Enter Short Description"
-          value={formData.description}
+          value={formData?.description}
           onChange={handleChange}
           className="border border-gray-300 rounded-md p-2"
           required
