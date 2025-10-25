@@ -10,7 +10,7 @@ export const authEndpoints = {
   RESETPASSTOKEN_API: `${BASE_URL}/auth/reset-password-token`,
   RESETPASSWORD_API: `${BASE_URL}/auth/reset-password`,
   GET_USER_DETAILS_API: `${BASE_URL}/auth/get-user-details`,
-  EDIT_PROFILE_API:`${BASE_URL}/auth/edit-profile`,
+  EDIT_PROFILE_API: `${BASE_URL}/auth/edit-profile`,
 };
 
 // ================= CATEGORY ENDPOINTS =================
@@ -21,6 +21,8 @@ export const categoryEndpoints = {
   DELETE_CATEGORY_API: (categoryId) =>
     `${BASE_URL}/admin/categories/${categoryId}/deleteCategory`,
   GET_CATEGORY_API: `${BASE_URL}/categories`,
+  GET_SINGLE_CATEGORY_API: (categoryId) =>
+    `${BASE_URL}/categories/${categoryId}`,
 };
 
 // ================= CART ENDPOINTS =================

@@ -1,3 +1,4 @@
+const { useParams } = require("react-router-dom");
 const Category = require("../models/categorySchema");
 const Dish = require("../models/dishSchema");
 const Restaurant = require("../models/restaurantSchema");
@@ -49,22 +50,7 @@ exports.createCategory = async (req, res) => {
     res.status(500).json({ success: false, message: error.message });
   }
 };
-// 1️⃣ Get all categories
-exports.getAllCategories = async (req, res) => {
-  try {
-    const categories = await Category.find()
-      .populate({
-        path: "dishes",
-        populate: { path: "category", select: "name" } // populate category inside dishes
-      });
-    res.status(200).json({
-      success: true,
-      categories,
-    });
-  } catch (error) {
-    res.status(500).json({ success: false, message: error.message });
-  }
-};
+
 // 2️⃣ Update category
 exports.updateCategory = async (req, res) => {
   try {
@@ -127,15 +113,17 @@ exports.deleteCategory = async (req, res) => {
     // 1️⃣ find all dishes under this category
     const dishes = await Dish.find({ category: categoryId });
 
-    // 2️⃣ remove each dish from its restaurant's dishes array
-    for (const dish of dishes) {
-      await Restaurant.findByIdAndUpdate(dish.restaurant, {
-        $pull: { dishes: dish._id },
-      });
-    }
+    if (dishes) {
+      // 2️⃣ remove each dish from its restaurant's dishes array
+      for (const dish of dishes) {
+        await Restaurant.findByIdAndUpdate(dish.restaurant, {
+          $pull: { dishes: dish._id },
+        });
+      }
 
-    // 3️⃣ delete all dishes under this category
-    await Dish.deleteMany({ category: categoryId });
+      // 3️⃣ delete all dishes under this category
+      await Dish.deleteMany({ category: categoryId });
+    }
 
     // 4️⃣ delete the category
     await Category.findByIdAndDelete(categoryId);
@@ -147,5 +135,51 @@ exports.deleteCategory = async (req, res) => {
   } catch (error) {
     console.error("Error deleting category:", error);
     res.status(500).json({ success: false, message: error.message });
+  }
+};
+
+// 1️⃣ Get all categories
+exports.getAllCategories = async (req, res) => {
+  try {
+    const categories = await Category.find().populate({
+      path: "dishes",
+      populate: { path: "category", select: "name" }, // populate category inside dishes
+    });
+    res.status(200).json({
+      success: true,
+      categories,
+    });
+  } catch (error) {
+    res.status(500).json({ success: false, message: error.message });
+  }
+};
+
+exports.getSingleCategory = async (req, res) => {
+  const { categoryId } = req.params;
+
+  try {
+    const category = await Category.findById(categoryId).populate({
+      path: "dishes",
+      populate: { path: "category", select: "name" },
+    });
+
+    if (!category) {
+      return res.status(404).json({
+        success: false,
+        message: "Category not found",
+      });
+    }
+
+    res.status(200).json({
+      success: true,
+      message: "Category Fetched Successfully!",
+      category,
+    });
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      message: "Error fetching category",
+      error: error.message,
+    });
   }
 };

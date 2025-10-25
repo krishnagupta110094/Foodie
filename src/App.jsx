@@ -33,6 +33,9 @@ import OrderHistory from "./pages/delivery/OrderHistory";
 import CreateRestaurant from "./pages/restaurant/CreateRestaurant";
 import About from "./pages/About";
 import ContactUs from "./pages/ContactUs";
+import CreateCategory from "./pages/admin/CreateCategory";
+import ManageCategory from "./pages/admin/ManageCategory";
+import EditCategory from "./pages/admin/EditCategory";
 
 const App = () => {
   return (
@@ -105,6 +108,11 @@ const App = () => {
           <Route path="/dashboard/history" element={<OrderHistory />} />
           <Route path="/dashboard/vehical-info" element={<VehicalInfo />} />
           <Route path="/dashboard/earnings" element={<Earning />} />
+
+          {/* ADMIN--------------------------------------------------------- */}
+          <Route path="/dashboard/admin/create-category" element={<CreateCategory/>} />
+          <Route path="/dashboard/admin/manage-category" element={<ManageCategory/>} />
+          <Route path="/dashboard/admin/edit-category/:categoryId" element={<EditCategory/>} />
         </Route>
 
         {/* Error Page */}
