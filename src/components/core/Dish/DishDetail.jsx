@@ -22,6 +22,7 @@ const DishDetail = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const { token } = useSelector((state) => state.auth);
+  const { user } = useSelector((state) => state.auth);
 
   const [dish, setDish] = useState(null);
   const [relatedDishes, setRelatedDishes] = useState([]);
@@ -79,6 +80,9 @@ const DishDetail = () => {
     setQuantity((prev) => (prev > 1 ? prev - 1 : 1));
 
   const handleBuyNow = () => {
+    if (!token) return toast.error("Please login to add items to your cart.");
+    if (user?.accountType !== "customer")
+      return toast.error("Please login as a customer to buy now.");
     handleAddToCart();
     navigate("/dashboard/cart");
   };
