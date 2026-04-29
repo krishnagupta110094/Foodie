@@ -81,3 +81,5 @@ export const paymentEndpoints = {
   CREATE_PAYMENT_ORDER: `${BASE_URL}/create-order`,
   VERIFY_PAYMENT: `${BASE_URL}/verify-payment`,
 };
+
+export const contactUsEndpoint = `${BASE_URL}/contact-us`;

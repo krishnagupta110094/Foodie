@@ -21,7 +21,8 @@ export function getUserCart(token, navigate) {
       }
 
       // ✅ Update Redux store
-      const { cart, totalItems,subTotal,totalDeliveryFee, totalPrice } = response.data;
+      const { cart, totalItems, subTotal, totalDeliveryFee, totalPrice } =
+        response.data;
       dispatch(setCart({ items: cart.items, totalItems, totalPrice }));
       localStorage.setItem(
         "cart",
@@ -31,7 +32,7 @@ export function getUserCart(token, navigate) {
           subTotal,
           totalDeliveryFee,
           totalPrice,
-        })
+        }),
       );
     } catch (error) {
       console.log("GETUSERCART API ERROR............", error);
@@ -42,48 +43,130 @@ export function getUserCart(token, navigate) {
   };
 }
 
+// export function addToCart(dishId, quantity, token) {
+//   return async (dispatch) => {
+//     if (!token) {
+//       toast.error("Please login before adding to cart", {
+//         id: "login-warning", // unique id taaki multiple toasts na bane
+//       });
+//       return;
+//     }
+//     const toastId = toast.loading("Adding to cart...");
+//     try {
+//       // ✅ use POST, not GET, when sending body data
+//       const response = await apiConnector(
+//         "POST",
+//         ADD_TO_CART,
+//         { dishId, quantity },
+//         {
+//           Authorization: `Bearer ${token}`,
+//         },
+//       );
+
+//       console.log("ADD_TO_CART API RESPONSE:", response);
+//       // ✅ Check for "alreadyInCart" first
+//       // if (response?.data?.message == "alreadyInCart") {
+//       //   toast.warn("This item is already in your cart!");
+//       //   return; // exit early
+//       // }
+
+//       if (!response.data.success) {
+//         throw new Error(response.data.message);
+//       }
+
+//       // ✅ optionally update Redux immediately
+//       const { cart, totalItems, subTotal, totalDeliveryFee, totalPrice } =
+//         response.data;
+//       dispatch(
+//         setCart({
+//           items: cart.items,
+//           totalItems,
+//           subTotal,
+//           totalDeliveryFee,
+//           totalPrice,
+//         }),
+//       );
+
+//       // ✅ success toast
+//       toast.success(
+//         `"${response.data.addedDish?.name || "Dish"}" added to your cart!`,
+//       );
+//     } catch (error) {
+//       if (error?.response?.data?.message === "alreadyInCart") {
+//         toast("This item is already in your cart!", {
+//           style: { background: "#FDE68A", color: "#92400E" },
+//         });
+//       } else {
+//         console.error("ADD_TO_CART API ERROR:", error);
+
+//         toast.error(error?.response?.data?.message);
+//       }
+//     } finally {
+//       toast.dismiss(toastId);
+//     }
+//   };
+// }
+
 export function addToCart(dishId, quantity, token) {
   return async (dispatch) => {
+    // 1. Check if user is logged in (token exists)
+    if (!token) {
+      toast.error("Please login before adding to cart", {
+        id: "login-warning", // unique id taaki multiple toasts na bane
+      });
+      return;
+    }
+
     const toastId = toast.loading("Adding to cart...");
     try {
-      // ✅ use POST, not GET, when sending body data
       const response = await apiConnector(
         "POST",
         ADD_TO_CART,
         { dishId, quantity },
         {
           Authorization: `Bearer ${token}`,
-        }
+        },
       );
 
       console.log("ADD_TO_CART API RESPONSE:", response);
-      // ✅ Check for "alreadyInCart" first
-      // if (response?.data?.message == "alreadyInCart") {
-      //   toast.warn("This item is already in your cart!");
-      //   return; // exit early
-      // }
 
       if (!response.data.success) {
         throw new Error(response.data.message);
       }
 
-      // ✅ optionally update Redux immediately
-      const { cart, totalItems, subTotal,totalDeliveryFee, totalPrice } = response.data;
-      dispatch(setCart({ items: cart.items, totalItems, subTotal,totalDeliveryFee, totalPrice }));
+      const { cart, totalItems, subTotal, totalDeliveryFee, totalPrice } =
+        response.data;
 
-      // ✅ success toast
+      dispatch(
+        setCart({
+          items: cart.items,
+          totalItems,
+          subTotal,
+          totalDeliveryFee,
+          totalPrice,
+        }),
+      );
+
       toast.success(
-        `"${response.data.addedDish?.name || "Dish"}" added to your cart!`
+        `"${response.data.addedDish?.name || "Dish"}" added to your cart!`,
       );
     } catch (error) {
-      if (error?.response?.data?.message === "alreadyInCart") {
+      // 2. Handle specific backend error messages
+      const errorMessage = error?.response?.data?.message;
+
+      if (errorMessage === "alreadyInCart") {
         toast("This item is already in your cart!", {
           style: { background: "#FDE68A", color: "#92400E" },
         });
+      } else if (
+        errorMessage === "Token is invalid" ||
+        error?.response?.status === 401
+      ) {
+        // Agar backend se error aa chuka hai tab bhi user friendly message dikhao
+        toast.error("Please login to continue");
       } else {
         console.error("ADD_TO_CART API ERROR:", error);
-
-        toast.error(error?.response?.data?.message);
+        toast.error(errorMessage || "Could not add to cart");
       }
     } finally {
       toast.dismiss(toastId);
@@ -101,7 +184,7 @@ export function removeDishFromCart(dishId, token) {
         null,
         {
           Authorization: `Bearer ${token}`,
-        }
+        },
       );
 
       console.log("REMOVE_FROM_CART API RESPONSE:", response);
@@ -111,12 +194,21 @@ export function removeDishFromCart(dishId, token) {
       }
 
       // ✅ Update Redux state after removal
-      const { cart, totalItems,subTotal,totalDeliveryFee, totalPrice } = response.data;
-      dispatch(setCart({ items: cart.items, totalItems, subTotal,totalDeliveryFee, totalPrice }));
+      const { cart, totalItems, subTotal, totalDeliveryFee, totalPrice } =
+        response.data;
+      dispatch(
+        setCart({
+          items: cart.items,
+          totalItems,
+          subTotal,
+          totalDeliveryFee,
+          totalPrice,
+        }),
+      );
 
       // ✅ success toast
       toast.success(
-        `"${response.data.removedDish?.name || "Dish"}" removed from your cart.`
+        `"${response.data.removedDish?.name || "Dish"}" removed from your cart.`,
       );
     } catch (error) {
       console.error("REMOVE_FROM_CART API ERROR:", error);
@@ -137,7 +229,7 @@ export function resetUserCart(token) {
         null, // no body needed
         {
           Authorization: `Bearer ${token}`,
-        }
+        },
       );
 
       console.log("RESET_CART API RESPONSE:", response);
@@ -163,14 +255,14 @@ export function IncDecItem(dishId, quantity, token) {
   return async () => {
     try {
       // Send API request to update quantity
-      if(quantity==1){
+      if (quantity == 1) {
         return;
       }
       const response = await apiConnector(
         "POST",
         ADD_TO_CART, // or your increment API
         { dishId, quantity },
-        { Authorization: `Bearer ${token}` }
+        { Authorization: `Bearer ${token}` },
       );
 
       if (!response.data.success) {

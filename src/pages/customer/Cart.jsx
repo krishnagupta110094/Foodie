@@ -28,17 +28,17 @@ const Cart = () => {
     if (newQuantity < 1) return;
 
     const updatedItems = items.map((item) =>
-      item.dish._id === dishId ? { ...item, quantity: newQuantity } : item
+      item.dish._id === dishId ? { ...item, quantity: newQuantity } : item,
     );
 
     const totalItemsUpdated = updatedItems.reduce(
       (sum, item) => sum + item.quantity,
-      0
+      0,
     );
 
     const subTotalUpdated = updatedItems.reduce(
       (sum, item) => sum + item.quantity * item.dish.price,
-      0
+      0,
     );
 
     // ✅ 10% delivery fee per dish (rounded to 2 decimals)
@@ -48,7 +48,7 @@ const Cart = () => {
     }, 0);
 
     const totalPriceUpdated = Number(
-      (subTotalUpdated + totalDeliveryFeeUpdated).toFixed(2)
+      (subTotalUpdated + totalDeliveryFeeUpdated).toFixed(2),
     );
 
     // ✅ Update Redux immediately for smoother UI
@@ -59,13 +59,13 @@ const Cart = () => {
         subTotal: subTotalUpdated,
         totalDeliveryFee: totalDeliveryFeeUpdated,
         totalPrice: totalPriceUpdated,
-      })
+      }),
     );
 
     // ✅ API call in background
     setUpdatingDishId(dishId);
     dispatch(IncDecItem(dishId, newQuantity, token)).finally(() =>
-      setUpdatingDishId(null)
+      setUpdatingDishId(null),
     );
   };
 
@@ -153,7 +153,7 @@ const Cart = () => {
 
       // ✅ Step 2: Configure Razorpay options
       const options = {
-        key: "rzp_test_RJftnFxGuWStKT", // add in .env frontend
+        key: "rzp_test_SIGskufkBPuHYN", // add in .env frontend
         amount: paymentOrder.amount,
         currency: paymentOrder.currency,
         name: "Food Delivery App",
@@ -223,8 +223,8 @@ const Cart = () => {
                 item?.dish?.status === "available"
                   ? "bg-green-100 text-green-700"
                   : item?.dish?.status === "unavailable"
-                  ? "bg-red-100 text-red-700"
-                  : "bg-gray-100 text-gray-600"
+                    ? "bg-red-100 text-red-700"
+                    : "bg-gray-100 text-gray-600"
               }`}
             >
               {item?.dish?.status || "N/A"}

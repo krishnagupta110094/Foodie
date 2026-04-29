@@ -13,7 +13,7 @@ const DishCard = ({ dish }) => {
   const handleAddToCart = (dishId, quantity = 1) => {
     try {
       dispatch(addToCart(dishId,quantity,token));
-      console.log("Dish added to cart successfully!");
+      // console.log("Dish added to cart successfully!");
     } catch (error) {
       console.error("Error adding dish to cart:", error);
     }

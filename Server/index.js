@@ -9,6 +9,7 @@ const dishRoute = require("./Router/Dish");
 const cartRoute = require("./Router/Cart");
 const orderRoute = require("./Router/placeOrder");
 const paymentRoute = require("./Router/Payment");
+const publicRoute = require("./Router/Public");
 const cors = require("cors");
 
 const fileUpload = require("express-fileupload");
@@ -22,9 +23,9 @@ app.use(fileUpload({ useTempFiles: true }));
 app.use(
   cors({
     origin: "https://foodie-dun-ten.vercel.app",
-    // origin:"http://localhost:5173",
+    // origin: "http://localhost:5173",
     credentials: true,
-  })
+  }),
 );
 
 //database connected successfully
@@ -42,6 +43,7 @@ app.use("/api/v1", dishRoute);
 app.use("/api/v1", cartRoute);
 app.use("/api/v1", orderRoute);
 app.use("/api/v1", paymentRoute);
+app.use("/api/v1", publicRoute);
 
 // test route
 app.get("/", (req, res) => {
