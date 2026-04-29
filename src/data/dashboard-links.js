@@ -96,13 +96,13 @@ export const sidebarLinks = [
   
 
   // ----------------- ADMIN -----------------
-  {
-    id: 16,
-    name: "Admin Stats",
-    path: "/dashboard/admin/stats",
-    type: "admin",
-    icon: "RiAdminLine",
-  },
+  // {
+  //   id: 16,
+  //   name: "Admin Stats",
+  //   path: "/dashboard/admin/stats",
+  //   type: "admin",
+  //   icon: "RiAdminLine",
+  // },
   {
     id: 21,
     name: "Create Category",
@@ -117,35 +117,35 @@ export const sidebarLinks = [
     type: "admin",
     icon: "VscEmptyWindow",
   },
-  {
-    id: 17,
-    name: "Manage Restaurants",
-    path: "/dashboard/admin/manage-restaurants",
-    type: "admin",
-    icon: "FaUtensils",
-  },
+  // {
+  //   id: 17,
+  //   name: "Manage Restaurants",
+  //   path: "/dashboard/admin/manage-restaurants",
+  //   type: "admin",
+  //   icon: "FaUtensils",
+  // },
   
-  {
-    id: 18,
-    name: "Manage Customers",
-    path: "/dashboard/admin/manage-customers",
-    type: "admin",
-    icon: "FaUserGraduate",
-  },
-  {
-    id: 19,
-    name: "Manage Delivery Boys",
-    path: "/dashboard/admin/manage-delivery-boys",
-    type: "admin",
-    icon: "FaBiking",
-  },
-  {
-    id: 20,
-    name: "Manage Dishes",
-    path: "/dashboard/admin/manage-dishes",
-    type: "admin",
-    icon: "FaBookOpen",
-  },
+  // {
+  //   id: 18,
+  //   name: "Manage Customers",
+  //   path: "/dashboard/admin/manage-customers",
+  //   type: "admin",
+  //   icon: "FaUserGraduate",
+  // },
+  // {
+  //   id: 19,
+  //   name: "Manage Delivery Boys",
+  //   path: "/dashboard/admin/manage-delivery-boys",
+  //   type: "admin",
+  //   icon: "FaBiking",
+  // },
+  // {
+  //   id: 20,
+  //   name: "Manage Dishes",
+  //   path: "/dashboard/admin/manage-dishes",
+  //   type: "admin",
+  //   icon: "FaBookOpen",
+  // },
   
   {
     id: 2,
