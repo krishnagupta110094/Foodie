@@ -34,7 +34,7 @@ const ContactUs = () => {
 
     try {
       // replace "/contact-us" with your actual endpoint variable if needed
-      const response = await apiConnector("POST",contactUsEndpoint, formData);
+      const response = await apiConnector("POST", contactUsEndpoint, formData);
 
       if (response.data.success) {
         toast.success("Message sent successfully! We'll get back to you.");
@@ -150,7 +150,7 @@ const ContactUs = () => {
           </motion.div>
 
           {/* Quick Info Sidebar */}
-          <div className="md:col-span-4 flex flex-col gap-6">
+          {/* <div className="md:col-span-4 flex flex-col gap-6">
             <motion.div
               initial={{ opacity: 0, x: 30 }}
               animate={{ opacity: 1, x: 0 }}
@@ -206,6 +206,107 @@ const ContactUs = () => {
                   </div>
                   LinkedIn
                 </a>
+              </div>
+            </motion.div>
+          </div> */}
+          <div className="md:col-span-4 flex flex-col gap-6">
+            {/* 1. WHY MESSAGE US SECTION */}
+            <motion.div
+              initial={{ opacity: 0, x: 30 }}
+              animate={{ opacity: 1, x: 0 }}
+              className="bg-white p-8 rounded-[2.5rem] shadow-xl shadow-gray-200/50 border border-gray-100"
+            >
+              <h4 className="text-xl font-bold text-gray-900 mb-6">
+                Why Reach Out?
+              </h4>
+              <div className="space-y-6">
+                {/* Point 1 */}
+                <div className="flex gap-4">
+                  <div className="w-10 h-10 shrink-0 bg-green-50 text-green-700 rounded-xl flex items-center justify-center font-bold">
+                    01
+                  </div>
+                  <div>
+                    <h5 className="font-bold text-gray-800 text-sm">
+                      Partnership Queries
+                    </h5>
+                    <p className="text-xs text-gray-500 mt-1">
+                      Want to list your restaurant or become a delivery partner?
+                    </p>
+                  </div>
+                </div>
+
+                {/* Point 2 */}
+                <div className="flex gap-4">
+                  <div className="w-10 h-10 shrink-0 bg-yellow-50 text-yellow-700 rounded-xl flex items-center justify-center font-bold">
+                    02
+                  </div>
+                  <div>
+                    <h5 className="font-bold text-gray-800 text-sm">
+                      Order Assistance
+                    </h5>
+                    <p className="text-xs text-gray-500 mt-1">
+                      Issues with your current order or payment? We're here.
+                    </p>
+                  </div>
+                </div>
+
+                {/* Point 3 */}
+                <div className="flex gap-4">
+                  <div className="w-10 h-10 shrink-0 bg-blue-50 text-blue-700 rounded-xl flex items-center justify-center font-bold">
+                    03
+                  </div>
+                  <div>
+                    <h5 className="font-bold text-gray-800 text-sm">
+                      Technical Support
+                    </h5>
+                    <p className="text-xs text-gray-500 mt-1">
+                      Found a bug in our app or website? Let us know.
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </motion.div>
+
+            {/* 2. OFFICE HOURS / STATUS SECTION */}
+            <motion.div
+              initial={{ opacity: 0, x: 30 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ delay: 0.2 }}
+              className="bg-green-700 p-8 rounded-[2.5rem] text-white relative overflow-hidden group"
+            >
+              {/* Decorative Circle Background */}
+              <div className="absolute -right-10 -top-10 w-32 h-32 bg-white/10 rounded-full group-hover:scale-110 transition-transform duration-500"></div>
+
+              <div className="relative z-10">
+                <div className="flex items-center gap-2 mb-4">
+                  <div className="w-2 h-2 bg-yellow-400 rounded-full animate-pulse"></div>
+                  <span className="text-xs font-bold uppercase tracking-widest text-green-100">
+                    Availability
+                  </span>
+                </div>
+
+                <h4 className="text-2xl font-bold mb-6">Our Office Hours</h4>
+
+                <div className="space-y-4">
+                  <div className="flex justify-between items-center border-b border-white/10 pb-2">
+                    <span className="text-sm text-green-100">Mon — Fri</span>
+                    <span className="text-sm font-bold">09:00 - 18:00</span>
+                  </div>
+                  <div className="flex justify-between items-center border-b border-white/10 pb-2">
+                    <span className="text-sm text-green-100">Saturday</span>
+                    <span className="text-sm font-bold">10:00 - 14:00</span>
+                  </div>
+                  <div className="flex justify-between items-center">
+                    <span className="text-sm text-green-100">Sunday</span>
+                    <span className="text-sm font-bold bg-white/20 px-2 py-1 rounded-md text-[10px]">
+                      CLOSED
+                    </span>
+                  </div>
+                </div>
+
+                <p className="mt-8 text-xs text-green-100/70 italic">
+                  *Response times may vary during public holidays.
+                </p>
               </div>
             </motion.div>
           </div>
